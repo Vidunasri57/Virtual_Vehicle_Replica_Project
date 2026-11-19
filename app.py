@@ -109,7 +109,7 @@ st.markdown(
         border-radius: 8px !important;
     }
 
-    /* Metric Cards */
+    /* Metric Cards & Crisp Labels */
     div[data-testid="stMetric"] {
         background-color: #FFFFFF !important;
         border: 1px solid #CBD5E1 !important;
@@ -118,22 +118,47 @@ st.markdown(
         padding: 16px 20px !important;
         box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06) !important;
     }
-    div[data-testid="stMetricLabel"] * {
-        color: #475569 !important;
+    div[data-testid="stMetricLabel"],
+    div[data-testid="stMetricLabel"] label,
+    div[data-testid="stMetricLabel"] p,
+    div[data-testid="stMetricLabel"] span,
+    div[data-testid="stMetricLabel"] div {
+        color: #334155 !important;
         font-weight: 700 !important;
         font-size: 13px !important;
         text-transform: uppercase;
         letter-spacing: 0.4px;
+        opacity: 1 !important;
     }
+    div[data-testid="stMetricValue"],
     div[data-testid="stMetricValue"] * {
         color: #0F172A !important;
         font-weight: 800 !important;
+        opacity: 1 !important;
     }
 
-    /* Alert Contrast */
-    div[data-testid="stAlert"] * {
+    /* High-Contrast Light Alert Boxes (Fixes dull dark alerts in Image 1 & Image 3) */
+    div[data-testid="stAlert"] {
+        background-color: #EFF6FF !important;
+        border: 1px solid #93C5FD !important;
+        border-left: 6px solid #2563EB !important;
+        border-radius: 10px !important;
         color: #0F172A !important;
-        font-weight: 600 !important;
+    }
+    div[data-testid="stAlert"][data-baseweb="notification"] {
+        background-color: #EFF6FF !important;
+    }
+    div[data-testid="stAlert"] *,
+    div[data-testid="stAlert"] p,
+    div[data-testid="stAlert"] span,
+    div[data-testid="stAlert"] div {
+        color: #0F172A !important;
+        font-weight: 700 !important;
+        opacity: 1 !important;
+    }
+    div[data-testid="stAlert"] svg {
+        fill: #1E3A8A !important;
+        color: #1E3A8A !important;
     }
 
     /* AI Status Banner */
