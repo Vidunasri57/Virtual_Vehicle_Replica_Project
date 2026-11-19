@@ -20,7 +20,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+    html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main {
         background-color: #F1F5F9 !important;
         color: #0F172A !important;
     }
@@ -54,8 +54,9 @@ st.markdown(
         opacity: 1 !important;
     }
 
-    /* Navigation Bar Buttons (Top Row) */
-    div[data-testid="stHorizontalBlock"] button {
+    /* Navigation Bar Buttons (Top Row) - Exclude Plotly Modebar Buttons */
+    div[data-testid="stHorizontalBlock"] > div > div > div > div > button:not(.modebar-btn),
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"]:not(.modebar-btn) {
         background-color: #FFFFFF !important;
         border: 1px solid #94A3B8 !important;
         border-radius: 8px !important;
@@ -63,42 +64,86 @@ st.markdown(
         width: 100% !important;
         box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
     }
-    div[data-testid="stHorizontalBlock"] button p,
-    div[data-testid="stHorizontalBlock"] button span,
-    div[data-testid="stHorizontalBlock"] button div {
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"]:not(.modebar-btn) p,
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"]:not(.modebar-btn) span,
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"]:not(.modebar-btn) div {
         color: #0F172A !important;
         font-weight: 700 !important;
         font-size: 14px !important;
     }
-    div[data-testid="stHorizontalBlock"] button[kind="primary"] {
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"][kind="primary"]:not(.modebar-btn) {
         background-color: #2563EB !important;
         border-color: #1D4ED8 !important;
     }
-    div[data-testid="stHorizontalBlock"] button[kind="primary"] p,
-    div[data-testid="stHorizontalBlock"] button[kind="primary"] span,
-    div[data-testid="stHorizontalBlock"] button[kind="primary"] div {
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"][kind="primary"]:not(.modebar-btn) p,
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"][kind="primary"]:not(.modebar-btn) span,
+    div[data-testid="stHorizontalBlock"] button[data-testid^="stBaseButton"][kind="primary"]:not(.modebar-btn) div {
         color: #FFFFFF !important;
     }
 
     /* Sidebar Clear Button */
-    section[data-testid="stSidebar"] button {
+    section[data-testid="stSidebar"] button:not(.modebar-btn) {
         background-color: #2563EB !important;
         border: none !important;
     }
-    section[data-testid="stSidebar"] button * {
+    section[data-testid="stSidebar"] button:not(.modebar-btn) * {
         color: #FFFFFF !important;
     }
 
     /* Primary & Action Buttons (e.g., Update Endpoint) */
-    div[data-testid="stButton"] button[kind="primary"] {
+    div[data-testid="stButton"] button[kind="primary"]:not(.modebar-btn) {
         background-color: #2563EB !important;
         border: 1px solid #1D4ED8 !important;
         border-radius: 8px !important;
         padding: 8px 20px !important;
     }
-    div[data-testid="stButton"] button[kind="primary"] * {
+    div[data-testid="stButton"] button[kind="primary"]:not(.modebar-btn) * {
         color: #FFFFFF !important;
         font-weight: 700 !important;
+    }
+
+    /* Always-Visible High-Contrast Plotly Modebar Icons Everywhere */
+    .js-plotly-plot .plotly .modebar-container,
+    .js-plotly-plot .plotly .modebar {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        background: transparent !important;
+    }
+    .js-plotly-plot .plotly .modebar-group {
+        background-color: #FFFFFF !important;
+        border: 1px solid #CBD5E1 !important;
+        border-radius: 8px !important;
+        padding: 2px 4px !important;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+        opacity: 1 !important;
+    }
+    .js-plotly-plot .plotly .modebar-btn {
+        background-color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 6px !important;
+        width: 26px !important;
+        height: 26px !important;
+        padding: 4px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    .js-plotly-plot .plotly .modebar-btn:hover,
+    .js-plotly-plot .plotly .modebar-btn.active {
+        background-color: #EFF6FF !important;
+    }
+    .js-plotly-plot .plotly .modebar-btn svg,
+    .js-plotly-plot .plotly .modebar-btn path {
+        fill: #1E293B !important;
+        color: #1E293B !important;
+        opacity: 1 !important;
+    }
+    .js-plotly-plot .plotly .modebar-btn:hover svg,
+    .js-plotly-plot .plotly .modebar-btn:hover path,
+    .js-plotly-plot .plotly .modebar-btn.active svg,
+    .js-plotly-plot .plotly .modebar-btn.active path {
+        fill: #2563EB !important;
+        color: #2563EB !important;
     }
 
     /* Text Input Field Contrast */
@@ -143,28 +188,32 @@ st.markdown(
         opacity: 1 !important;
     }
 
-    /* High-Contrast Light Alert Boxes */
-    div[data-testid="stAlert"] {
+    /* High-Contrast Alert Bars (Diagnostic Findings & Node-RED Status) */
+    [data-testid="stAlert"],
+    .stAlert,
+    [data-baseweb="notification"] {
         background-color: #EFF6FF !important;
+        background: #EFF6FF !important;
         border: 1px solid #93C5FD !important;
         border-left: 6px solid #2563EB !important;
         border-radius: 10px !important;
         color: #0F172A !important;
+        opacity: 1 !important;
     }
-    div[data-testid="stAlert"][data-baseweb="notification"] {
-        background-color: #EFF6FF !important;
-    }
-    div[data-testid="stAlert"] *,
-    div[data-testid="stAlert"] p,
-    div[data-testid="stAlert"] span,
-    div[data-testid="stAlert"] div {
+    [data-testid="stAlert"] *,
+    .stAlert *,
+    [data-baseweb="notification"] * {
         color: #0F172A !important;
+        -webkit-text-fill-color: #0F172A !important;
         font-weight: 700 !important;
         opacity: 1 !important;
     }
-    div[data-testid="stAlert"] svg {
-        fill: #1E3A8A !important;
-        color: #1E3A8A !important;
+    [data-testid="stAlert"] svg,
+    .stAlert svg,
+    [data-baseweb="notification"] svg {
+        fill: #1D4ED8 !important;
+        color: #1D4ED8 !important;
+        opacity: 1 !important;
     }
 
     /* AI Status Banner */
